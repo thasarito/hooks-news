@@ -1,7 +1,31 @@
-import React from "react";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { getDomain } from '../../utils';
+import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 
-function LinkItem() {
-  return <div>LinkItem</div>;
+function LinkItem({ link, index, showCount }) {
+	return (
+		<div className="flex items-start mt2">
+			<div className="flex items-center">
+				{showCount && <span className="gray">{index}.</span>}
+				<div className="vote-button">▲</div>
+				<div className="ml1">
+					{link.description}{' '}
+					<span className="link">({getDomain(link.url)})</span>
+					<div className="f6 lh-copy gray">
+						{link.votes.length} posted by {link.postedBy.name}{' '}
+						{distanceInWordsToNow(link.created)}
+						{' | '}
+						<Link to={`/link/${link.id}`}>
+							{link.comments.length > 0
+								? `${link.comments.length} commnets`
+								: 'discuss'}
+						</Link>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 }
 
 export default LinkItem;
